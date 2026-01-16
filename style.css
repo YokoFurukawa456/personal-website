@@ -1,0 +1,142 @@
+:root {
+    --background-color: #EFE9DD;
+    --black-color: #000000;
+    --orange-color: #EC552E;
+    --pink-color: #EB97B8;
+    --green-color: #D2E372;
+    --blue-color: #CEDDE5;
+    --yellow-color: #F1DF8C;
+    --gray-color: #D9D9D9;
+    --boarder-brown-color: #911209;
+    --darker-blue-color: #0288D1;
+    --darker-beige-color: #F78C6C;
+    --darker-purple-color: #9999F9;
+    --darker-yellow-color: #FFCB6B;
+    --darker-green-color: #9CCC65;
+    --darker-orange-color: #EC552E;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Sorts Mill Goudy", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.main {
+    max-width:1440px;
+    margin:0 auto;
+    padding-left: 100px;   
+    padding-right: 100px;
+    background: var(--background-color)
+
+}
+
+.wrapper {
+    max-width:1440px;
+    margin:0 auto;
+    background: var(--background-color)
+
+}
+
+.btn {
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-family: "Sora", serif;
+    color: #fff;
+    display: inline-block;
+    font-weight: semibold;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.btn.black {
+    background: var(--black-color)
+}
+.btn.pink {
+    background: var(--pink-color)
+}
+.btn.download-icon::before {
+    content: url('images/icons/download.svg');
+    position: absolute;
+    top: 35%;
+    left: 90%;
+    transform: trenslateY(-50%);
+}
+
+/* nav */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    position: fixed;
+    width: 1440px;
+    margin-left: 0px;
+    padding: 16px 32px;
+    background-color: var(--orange-color);
+    border-radius: 0px;
+    z-index: 100;
+
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    list-style: none;
+    margin: 10px;
+}
+
+nav ul li a {
+    font-family: "Sora";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* hero section */
+
+.hero-section {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between; 
+    margin-left: 20;
+}
+
+.hero-section .left h1{
+    font-family: "Sorts Mill Goudy", serif;
+    font-weight: 400;
+    font-size: 75px;
+    line-height: 120%;
+    color: #000000;
+    margin-bottom: 0px;
+}
+.hero-section .left p {
+    font-family: "Sorts Mill Goudy", serif;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 120%;
+    color: #000000;
+    margin-bottom: 30px;
+}
+.hero-section .left .social {
+    display: flex;
+    justify-content: space-between; 
+    width: 200px;
+    margin-top: 20px;
+}
+
+/* skills section */
+
+
