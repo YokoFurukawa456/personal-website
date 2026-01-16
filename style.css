@@ -65,9 +65,18 @@ body {
 }
 
 .gray-bg {
-    max-width:800px;
+    max-width:1000px;
     margin:0 auto;
     background-color: var(--gray-color);
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.green-bg {
+    max-width:1440px;
+    height: 350px;
+    margin:0 auto;
+    background-color: var(--green-color);
 }
 
 .btn {
@@ -79,14 +88,13 @@ body {
     font-weight: semibold;
     font-size: 16px;
     text-decoration: none;
+    padding-left: 45px;
 }
 
 .btn.black {
     background: var(--black-color)
 }
-.btn.pink {
-    background: var(--pink-color)
-}
+
 .btn.download-icon::before {
     content: url('images/icons/download.svg');
     position: absolute;
@@ -167,7 +175,6 @@ nav ul li a {
     height: 50vh;
     align-items: center;
     justify-content: center;
-    align-items: center;
 }
 
 .top h2 {
@@ -231,6 +238,162 @@ nav ul li a {
 
 /* projects */
 
+.projects {
+    display: flex;
+    justify-content: space-between; 
+    width: 1250px;
+    margin-top: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+
+}
+
+.left h2 {
+    padding-top: 0px;
+    margin-top: 50px;
+    height: 50px;
+    font-family: "Sorts Mill Goudy", serif;
+    font-weight: 400;
+    font-size: 60px;
+    text-align: center;
+    color: #000000;
+}
+
+
+.frontend {
+    display: flex;
+    justify-content: space-between; 
+    width: 750px;
+    padding-left: 70px;
+    padding-right: 70px;
+    align-content: center;
+}
+
+.animation {
+    display: flex;
+    justify-content: space-between; 
+    width: 750px;
+    padding-left: 70px;
+    padding-right: 70px;
+    align-content: center;
+}
+
+.ds {
+    display: flex;
+    justify-content: space-between; 
+    width: 750px;
+    padding-left: 70px;
+    padding-right: 70px;
+    align-content: center;
+}
+
+.film {
+    display: flex;
+    justify-content: space-between; 
+    width: 750px;
+    padding-left: 70px;
+    padding-right: 70px;
+    align-content: center;
+}
+
+.backend {
+    display: flex;
+    justify-content: space-between; 
+    width: 750px;
+    padding-left: 70px;
+    padding-right: 70px;
+    align-content: center;
+}
+
+.marketing {
+    display: flex;
+    justify-content: space-between; 
+    width: 750px;
+    padding-left: 70px;
+    padding-right: 70px;
+    align-content: center;
+}
+
+.right .inner-left h3 {
+    font-family: "Sorts Mill Goudy";
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 45px; /* 125% */
+    letter-spacing: -0.72px;
+
+    text-align: left;
+    color: #000000;
+
+    padding-top: 50px;
+
+}
+
+.right .inner-left p {
+    font-family: "Sora";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+
+    text-align: left;
+    color: #000000;
+
+    margin-top: 0px;
+
+}
+
+.right .inner-right {
+    padding-top: 80px;
+    padding-left: 80px;
+
+}
+
+.right .inner-right img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 70px;
+}
+
+/* footer section */
+
+.footer {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 750px;
+    padding-left: 50px;
+    padding-right: 50px;
+    align-content: center;
+}
+
+.left h3 {
+    font-family: "Sorts Mill Goudy";
+    font-size: 20px;
+    font-style: normal;
+    padding-top: 50px;
+    padding-left:10px;
+}
+
+.left .social {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    margin: 10px;
+}
+
+.right ul li{
+    font-family: "Sorts Mill Goudy";
+    font-size: 20px;
+    font-style: normal;
+    padding-top: 100px;
+    padding-left: 600px;
+    text-decoration: none;
+    gap: 80px;
+    list-style: none;
+}
 
 
 
