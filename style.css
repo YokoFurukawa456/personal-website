@@ -371,10 +371,6 @@ nav ul li a {
     box-sizing: border-box;
 }
 
-.frontend img {
-    width: 100%; 
-}
-
 .frontend .inner-left{
     flex: 1 1 auto;   /* allow text to grow */
     min-width: 200px;
@@ -388,9 +384,7 @@ nav ul li a {
     padding: 0 70px;
     align-content: center;
 }
-.animation img {
-    width: 100%; 
-}
+
 .animation .inner-left{
     flex: 1 1 auto;   /* allow text to grow */
     min-width: 200px;
@@ -406,10 +400,6 @@ nav ul li a {
     align-content: center;
 }
 
-.ds img {
-    width: 100%; 
-    align-items: right;
-}
 .ds .inner-left{
     flex: 1 1 auto;   /* allow text to grow */
     min-width: 200px;
@@ -430,11 +420,6 @@ nav ul li a {
     min-width: 200px;
 }
 
-.film img {
-    width: 100%; 
-    align-items: right;
-}
-
 .backend {
     display: flex;
     justify-content: space-between; 
@@ -443,11 +428,6 @@ nav ul li a {
     max-width: 1200px; 
     padding: 0 70px;
     align-content: center;
-}
-
-.backend img {
-    width: 100%; 
-    align-items: right;
 }
 
 .backend .inner-left{
@@ -465,14 +445,61 @@ nav ul li a {
     align-content: center;
 }
 
-.marketing .inner-right img {
-    width: 100%; 
-}
-
 .marketing .inner-left{
     flex: 1 1 auto;   /* allow text to grow */
     min-width: 200px;
 }
+
+.right .inner-right {
+    padding-top: 80px;
+    padding-left: 80px;
+}
+
+.image-container {
+    position: relative;
+    display: block; /* Shrinks to the width of the image */
+    width: 100%;           /* Or keep 100% if the image is full width */
+    line-height: 0;      /* Extra safety: removes space for text tails */
+    font-size: 0;
+}
+
+.right .inner-right img {
+    width: 100%; 
+    display: block;
+    height: auto;
+    margin: 0;
+    align-items: center;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: 0.6s;
+    
+}
+.content:hover {
+    opacity: 1;
+}
+
+.content a {
+    font-family: "Sora";
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 15px;
+
+}
+
+
+
 
 @media (max-width: 1200px) {
     .projects {
