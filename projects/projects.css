@@ -179,6 +179,7 @@ nav ul li a {
 .blue-bg {
     max-width:1000px;
     margin:0 auto;
+    width: 100%;
     background-color: var(--blue-color);
     margin-top: 50px;
     margin-bottom: 50px;
@@ -187,12 +188,13 @@ nav ul li a {
 
 .yellow-bg {
     max-width:800px;
-    margin:0 auto;
+    margin:50px auto;
+    display: block;
     background-color: var(--yellow-color);
-    margin-top: 50px;
-    margin-bottom: 50px;
-    align-items: center;
+    /* margin-top: 50px;
+    margin-bottom: 50px; */
     padding: 50px;
+    text-align: center;
 }
 
 .green-bg {
@@ -210,8 +212,9 @@ nav ul li a {
     justify-content: space-between; 
     max-width: 100%;
     margin-top: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     transform: translateY(-400px);
 }
 
@@ -358,7 +361,6 @@ nav ul li a {
 
 .cards {
     padding-top: 0px;
-    padding-left: 80px;
     max-width: 100%;
     height: auto;
     margin-bottom: 0px;
