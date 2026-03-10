@@ -198,9 +198,9 @@ nav ul li a {
 } */
 
 .yellow-bg {
-    background-color: #fdfd96; /* Your yellow-bg color */
-    width: 300px;             /* Fixed width for uniformity */
-    padding: 20px;
+    background-color: var(--yellow-color); /* Your yellow-bg color */
+    width: 350px;             /* Fixed width for uniformity */
+    padding: 30px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
