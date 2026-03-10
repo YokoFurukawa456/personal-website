@@ -1,0 +1,502 @@
+:root {
+    --background-color: #EFE9DD;
+    --black-color: #000000;
+    --orange-color: #EC552E;
+    --pink-color: #EB97B8;
+    --green-color: #D2E372;
+    --blue-color: #CEDDE5;
+    --yellow-color: #F1DF8C;
+    --gray-color: #D9D9D9;
+    --boarder-brown-color: #911209;
+    --darker-blue-color: #0288D1;
+    --darker-beige-color: #F78C6C;
+    --darker-purple-color: #9999F9;
+    --darker-yellow-color: #FFCB6B;
+    --darker-green-color: #9CCC65;
+    --darker-orange-color: #EC552E;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Sorts Mill Goudy", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.main {
+    width:100%;
+    margin:0 auto;
+    background: var(--background-color);
+    overflow-x: hidden;
+}
+
+.wrapper {
+    max-width:100%;
+    margin:0 auto;
+    padding-left: 100px;   
+    padding-right: 100px;
+
+}
+
+.btn {
+    position: relative;
+    padding: 12px 20px;
+    padding-left: 45px;
+
+    border-radius: 4px;
+    font-family: "Sora", serif;
+    color: #fff;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+
+    margin-left: auto;
+    margin-right: 50px;
+}
+
+.btn.black {
+    background: var(--black-color)
+}
+
+.btn.download-icon::before {
+    content: url('../images/icons/download.svg');
+    position: absolute;
+    top: 45%;
+    left: 16px;
+    transform: translateY(-50%);
+
+    width: 16px;
+    height: 16px;
+}
+
+/* nav */
+nav {
+    /* display: flex;
+    justify-content: space-between;
+    align-items: left; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px 0px;
+    background-color: var(--orange-color);
+    z-index: 100;
+
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: clamp(24px, 6vw, 80px);
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    list-style: none;
+    margin: 10px;
+}
+
+nav ul li a {
+    font-family: "Sora";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* title */
+
+.strip {
+  display: flex;
+  gap: 10px;
+  padding: 150px 0;
+  white-space: nowrap;
+}
+
+.box {
+  width: 40px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+/* Top Strip (Greenish) */
+.strip-top {
+  transform: rotate(-10deg) translateX(-30px) translateY(50px);
+  align-items: center;
+}
+
+.strip-top .box {
+  background-color: var(--green-color);
+}
+
+.label {
+  font-size: 3rem;
+  margin-right: 20px;
+  color: #000;
+}
+
+/* Bottom Strip (Yellowish) */
+.strip-bottom {
+  transform: rotate(5deg) translateX(-30px) translateY(-200px);
+}
+
+.strip-bottom .box {
+  background-color: var(--yellow-color);
+}
+
+/* project */
+.title {
+    width: 100%;
+    padding: 0px 100px;
+    transform: translateY(-510px);
+}
+.title h2 {
+    font-family: "Sorts Mill Goudy", serif;
+    font-weight: 400;
+    font-size: 60px;
+    text-align: left;
+    color: #000000;
+
+    width: 100%;
+    height: 50px;
+}
+
+.blue-bg {
+    max-width:1000px;
+    margin:0 auto;
+    width: 100%;
+    background-color: var(--blue-color);
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 30px;
+}
+
+/* .yellow-bg {
+    max-width:800px;
+    margin:50px auto;
+    display: block;
+    background-color: var(--yellow-color);
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 50px;
+    text-align: center;
+} */
+
+.yellow-bg {
+    background-color: #fdfd96; /* Your yellow-bg color */
+    width: 300px;             /* Fixed width for uniformity */
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* Centers text and images inside the card */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: adds a nice lift */
+}
+
+/* Poster Image styling */
+.yellow-bg img {
+    width: 100%;
+    height: 400px;            /* Set a fixed height to ensure alignment */
+    object-fit: cover;        /* Crops images slightly to fill the box without stretching */
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+/* Typography bits */
+.yellow-bg h3 {
+    font-size: 1.1rem;
+    height: 3em;              /* Gives titles consistent space even if they wrap */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.role { font-weight: 600; font-size: 0.9rem; margin: 5px 0; }
+.award { color: #d4a017; font-size: 0.85rem; font-style: italic; }
+
+/* 
+
+.yellow-bg {
+    flex: 1 1 300px;       
+    max-width: 350px;      
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    text-align: center;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.yellow-bg img {
+    width: 100%;      
+    height: auto;         
+    border-radius: 8px;   
+    margin-bottom: 10px;
+} */
+
+.green-bg {
+    max-width:100%;
+    height: 350px;
+    margin:0 auto;
+    background-color: var(--green-color);
+    transform: translateY(-300px);
+}
+
+
+/* projects */
+
+.right {
+    justify-content: space-between; 
+    max-width: 100%;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-400px);
+}
+
+@media (max-width: 1000px) {
+    .right {
+        width: 100vw;                 
+        padding: 0px 0px;
+    }
+}
+
+.frontend {
+    padding-top: 40px;
+    align-items: center;
+    width: 100%; 
+    max-width: 1200px; 
+    padding: 0 0px;
+    align-content: center;
+    box-sizing: border-box;
+}
+
+.frontend img {
+    width: 100%; 
+}
+
+.animation {
+    padding-top: 40px;
+    align-items: center;
+    width: 100%; 
+    max-width: 1200px; 
+    padding: 0 0px;
+    align-content: center;
+    box-sizing: border-box;
+}
+.animation img {
+    width: 100%; 
+}
+
+.ds {
+    padding-top: 40px;
+    align-items: center;
+    width: 100%; 
+    max-width: 1200px; 
+    padding: 0 0px;
+    align-content: center;
+    box-sizing: border-box;
+}
+
+.ds img {
+    width: 100%; 
+    align-items: right;
+}
+
+.film {
+    padding-top: 40px;
+    align-items: center;
+    width: 100%; 
+    max-width: 1200px; 
+    padding: 0 0px;
+    align-content: center;
+    box-sizing: border-box;
+}
+
+.film img {
+    width: 100%; 
+    align-items: right;
+}
+
+.backend {
+    padding-top: 40px;
+    align-items: center;
+    width: 100%; 
+    max-width: 1200px; 
+    padding: 0 0px;
+    align-content: center;
+    box-sizing: border-box;
+}
+
+.backend img {
+    width: 100%; 
+    align-items: right;
+}
+
+.marketing {
+    padding-top: 40px;
+    align-items: center;
+    width: 100%; 
+    max-width: 1200px; 
+    padding: 0 0px;
+    align-content: center;
+    box-sizing: border-box;
+}
+
+.marketing img {
+    width: 100%; 
+}
+
+@media (max-width: 1200px) {
+    .projects {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .frontend,
+    .animation,
+    .ds,
+    .film,
+    .backend,
+    .marketing {
+        padding: 0 40px;
+    }
+}
+
+.top h3 {
+    font-family: "Sorts Mill Goudy", serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 45px; /* 125% */
+    letter-spacing: -0.72px;
+
+    text-align: center;
+    color: #000000;
+
+    padding-top: 30px;
+}
+
+.bottom p {
+    font-family: "Sora";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+
+    text-align: center;
+    color: #000000;
+
+    margin-top: 0px;
+
+    padding-right: 50px;
+    padding-left: 50px;
+    padding-bottom: 0px;
+
+}
+
+/* .cards {
+    padding-top: 0px;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 0px;
+
+} */
+.cards {
+    display: flex;          /* This enables the side-by-side layout */
+    flex-wrap: wrap;        /* Allows cards to move to the next row if needed */
+    gap: 20px;              /* Adds space between your posters */
+    justify-content: center; /* Centers the cards horizontally */
+    padding: 20px 0;
+}
+
+.cards h3 {
+    font-family: "Sorts Mill Goudy", serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px; /* 125% */
+    letter-spacing: -0.32px;
+
+    text-align: center;
+    color: #000000;
+
+    margin-top: 0px;
+
+    padding-right: 50px;
+    padding-left: 50px;
+    padding-bottom: 0px;
+
+}
+
+.cards a {
+    font-family: "Sora", serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px; /* 125% */
+    letter-spacing: -0.32px;
+
+    text-align: center;
+    color: #000000;
+
+    margin-top: 0px;
+
+    padding-right: 50px;
+    padding-left: 50px;
+    padding-bottom: 0px;
+
+}
+
+/* footer section */
+
+.footer {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 100%;
+    padding: 0px 0px;
+    box-sizing: border-box;
+    transform: translateY(-50px);
+}
+
+.left h3 {
+    font-family: "Sorts Mill Goudy";
+    font-size: 20px;
+    font-style: normal;
+    padding-top: 50px;
+
+}
+
+.left .social {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    margin: 10px;
+}
+
+.left ul li{
+    font-family: "Sorts Mill Goudy";
+    font-size: 20px;
+    font-style: normal;
+    text-decoration: none;
+    list-style: none;
+}
