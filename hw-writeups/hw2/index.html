@@ -1,0 +1,180 @@
+<html>
+	<head>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+		<style>
+			h1 {
+				text-align: center;
+			}
+
+			.container {
+				margin: 0 auto;
+				padding: 60px 20%;
+			}
+
+			figure {
+				text-align: center;
+			}
+
+			img {
+				display: inline-block;
+			}
+
+			body {
+				font-family: 'Inter', sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+		<h1>CS184/284A Spring 2025 Homework 2 Write-Up</h1>
+		<div style="text-align: center;">Yoko Furukawa, Kevin Ying</div>
+
+		<br>
+
+		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+
+		<br>
+		
+		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+
+		<figure>
+			<img src="images/teapot.png" alt="Teapot" style="width:50%"/>
+			<figcaption>You can add images with captions!</figcaption>
+		</figure>
+
+		<!--
+		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
+		-->
+
+		<h2>Overview</h2>
+		<p>This project aims to implement a 3D rendering pipeline, from creating mathematical spline 
+		representations using bezier curves, work with mesh data structure and implement phong  shading,
+		basic mesh edit operations like flip edge, split edge and subdivision. Whereas homework 1 
+		focused on the image rasterisation aspects of the graphics pipeline, this homework focuses on 
+		the mathematical representation of 3D objects, and generating 3D meshes.
+		</p>
+		
+		<p>
+		Overall, it was a challenging but rewarding project.
+		</p>
+		
+		<h2>Section I: Bezier Curves and Surfaces</h2>
+
+		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
+
+		<p>
+		Casteljau’s algorithm is a recursive method to generate bezier curves. For an n-degree Bezier curve with n edges, 
+		it recursively performs the n lerp subdivisions until it reaches a point, to trace the curve.
+		</p>
+		
+		<p>
+		We implemented the algorithm by first iteratively interpolating across each pair of adjacent control points on one layer, 
+		then recursed to find the next layer of control points. We stop until the number of control points reaches 1.
+		</p>
+		
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+					<img src="images/Section1/part1/deg6/movement1.png" height="300px"/>
+					<figcaption>Degree 6 Bezier Curve Time Trace 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="images/Section1/part1/deg6/movement2.png" height="300px"/>
+					<figcaption>Degree 6 Bezier Curve Time Trace 2</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="images/Section1/part1/deg6/movement3.png" height="300px"/>
+					<figcaption>Degree 6 Bezier Curve Time Trace 3</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>
+		Since each linear interpolation are parameterised by t, once the subdivisions are done, we can increment through them to trace out the final curve.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/Section1/part1/deg6/step0.png" width="400px"/>
+				  <figcaption>Degree 6 Bezier Lerp Level 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/Section1/part1/deg6/step1.png" width="400px"/>
+				  <figcaption>Degree 6 Bezier Lerp Level 2</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/Section1/part1/deg6/step2.png" width="400px"/>
+				  <figcaption>Degree 6 Bezier Lerp Level 3</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/Section1/part1/deg6/step3.png" width="400px"/>
+				  <figcaption>Degree 6 Bezier Lerp Level 4</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/Section1/part1/deg6/step4.png" width="400px"/>
+				  <figcaption>Degree 6 Bezier Lerp Level 5</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/Section1/part1/deg6/step6.png" width="400px"/>
+				  <figcaption>Degree 6 Bezier Lerp Level 6</figcaption>
+				</td>
+			</table>
+		</div>
+
+		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
+		Briefly explain how de Casteljau algorithm extends to Bezier surfaces and how you implemented it in order to evaluate Bezier surfaces.
+Show a screenshot of bez/teapot.bez (not .dae) evaluated by your implementation.
+
+		<p>
+		De Casteljau's algorithm can be extended to generating Bezier surfaces by evaluating the surface in two stages, across parameters u and v. 
+		We implemented this using three core functions. First, evaluateStep performs a single level of linear interpolation between points, which 
+		evaluate1D uses in a loop to fully evaluate a 1D Bezier curve down to a single point. To evaluate the 2D surface, evaluate(u, v) sweeps 
+		along the u-axis by applying evaluate1D to each row of the control point grid, generating a moving set of intermediate control points. 
+		Finally, it sweeps along the v-axis by calling evaluate1D one last time on these intermediate points using parameter v to pinpoint the exact 
+		3D surface position.
+		</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<td style="text-align: center;">
+				<img src="images/Section1/part2/Screenshot 2026-03-03 at 8.46.15 pm.png" width="700px"/>
+				<figcaption>Utah Teapot evaluated using our Bezier Surface implementation (../bez/teapot.bez)</figcaption>
+			</td>
+		</div>
+		
+
+		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
+
+		<h3>Part 3: Area-weighted vertex normals</h3>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<h3>Part 4: Edge flip</h3>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<h3>Part 5: Edge split</h3>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<h2>Additional Notes (please remove)</h2>
+		<ul>
+			<li>You can also add code if you'd like as so: <code>code code code</code></li>
+			<li>If you'd like to add math equations, 
+				<ul>
+					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
+					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
+				</ul>
+			</li>
+		</ul>
+		</div>
+	</body>
+</html>

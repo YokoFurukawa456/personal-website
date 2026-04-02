@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>CS184/284A Spring 2025 Homework 1 Write-Up</title>
+        
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+        
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+
+        <style>
+            body {
+                font-family: 'Inter', sans-serif;
+                line-height: 1.6;
+                color: #333;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            h2 {
+                border-bottom: 2px solid #eaeaea;
+                padding-bottom: 8px;
+                margin-top: 40px;
+            }
+
+            .container {
+                margin: 0 auto;
+                padding: 60px 20%;
+            }
+
+            figure {
+                text-align: center;
+                margin: 20px 0;
+            }
+
+            figcaption {
+                font-style: italic;
+                color: #666;
+                margin-top: 8px;
+            }
+
+            img {
+                display: inline-block;
+                max-width: 100%;
+                height: auto;
+            }
+
+            .flex-gallery {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+                flex-wrap: wrap;
+                margin: 20px 0;
+            }
+
+            .flex-gallery > div {
+                text-align: center;
+            }
+            
+            pre {
+                background-color: #f6f8fa;
+                border-radius: 6px;
+                padding: 16px;
+                overflow: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>CS184/284A Spring 2025 Homework 1 Write-Up</h1>
+            <div style="text-align: center; font-weight: 600;">Names: Kevin Ying, Yoko Furukawa</div>
+
+            <br>
+            <div style="text-align: center;">
+                Link to webpage: <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a><br>
+                <a href="https://github.com/cal-cs184-student/hw1-rasterizer-gusthesquirrel.git">GitHub repository</a>
+            </div>
+
+            <figure>
+                <img src="./screenshots/task3/task3_louis_xvi.png" alt="louis 16" style="width:50%" />
+                <figcaption>Meep</figcaption>
+            </figure>
+
+            <h2>Overview</h2>
+            <p>In this homework, we built a complete software rendering pipeline from scratch. Our rasterizer translates mathematical geometry into screen pixels, supporting basic triangle rasterization, supersampled anti-aliasing, and texture mapping. We also implemented 2D transformation matrices, bringing our pipeline to life by modeling a custom hierarchical robot named Louis!</p>
+            <p>Overall, we took away from this project:</p>
+            <p>We learned to understand and apply graphics and rendering techniques like supersampling, barycentric coordinates for color interpolation, bilinear pixel sampling, and mipmapping, on both a theoretical and implementation level.</p>
+            <p>We familiarised working and debugging in C++, and working with graphics related libraries and data classes like Vector2D and Color. We familiarised with accessing and managing frame and sample buffers.</p>
+            <p>Overall, this project was a super rewarding deep dive into the fundamental principles of modern rasterization!</p>
+            
+            <h2>Task 1: Drawing Single-Color Triangles</h2>
+            <p>
+                To rasterize a triangle, we first constructed a helper function called <code>inside</code>, which checks whether the center of a 
+				pixel lies inside the triangle defined by three points (<code>x0</code>, <code>y0</code>), (<code>x1</code>, <code>y1</code>), 
+				and (<code>x2</code>, <code>y2</code>).
+            </p>
+            <p>
+				In <code>inside</code>, we defined edge functions based on 2D cross products. For each edge of the triangle, we compute 2D cross product between the edge vector and the 
+				vector from the edge’s starting vertex to the test point as following:
+				<ul>
+				<li><code>e0 = (px − x0) * (y1 − y0) − (py − y0) * (x1 − x0)</code></li>
+				<li><code>e1 = (px − x1) * (y2 − y1) − (py − y1) * (x2 − x1)</code></li>
+				<li><code>e2 = (px − x2) * (y0 − y2) − (py − y2) * (x0 − x2)</code></li>
+				</ul>
+				We defined the point to be inside the triangle if it lies on the same side of all three edges. If all three dot products were positive values or all negative values, the point was inside the triangle, and <code>inside</code> returned true.
+			</p>
+
+            <p>
+                Now that we have a way to check if a pixel is inside/outside of a triangle, we can now iterate through each pixel on the screen,
+				and apply the colours! In <code>rasterize_triangle</code>, we looped through every pixel (using <code>px</code>, <code>py</code>) on the 
+				grid, and called <code>inside</code> on the pixel centers by passing in (<code>px + 0.5</code>, <code>py + 0.5</code>). If 
+				<code>inside</code> returned true, we colored the pixel by storing the specified color in the <code>sample_buffer</code>. 
+            </p>
+
+			<p> Finally, we display the sample_buffer image by calling <code>RasterizerImp::resolve_to_framebuffer()</code> to save it to the frame buffer.</p>
+
+			<figure>
+                <img src="screenshots/task1/Task1_sample_rate_1.png" width="400px"/>
+                <figcaption>BOOM! Here's our jaggy triangles!</figcaption>
+            </figure>
+
+			<h3>Extra Credit: Speedup</h3>
+
+			<p>
+				While our rasterisation loop works, it was quite slow. The code checks through every pixel on the screen, even those that are definitely outside the triangle!
+			</p>
+
+			<p>
+				To speed this up, we implemented a bounding box optimization. We computed the axis-aligned bounding box of the triangle by finding the minimum and 
+				maximum x and y coordinates among the three vertices. Then, instead of iterating through every pixel on the screen, we only looped through pixels that 
+				fall within this bounding box:
+			</p>
+
+			<code>
+				int triangle_lower_x = floor(min(x0, min(x1, x2))); <br>
+				int triangle_upper_x = ceil(max(x0, max(x1, x2))); <br>
+				int triangle_lower_y = floor(min(y0, min(y1, y2))); <br>
+				int triangle_upper_y = ceil(max(y0, max(y1, y2))); <br>
+				
+				for (int px = triangle_lower_x; px < triangle_upper_x; px++) { <br>
+				    for (int py = triangle_lower_y; py < triangle_upper_y; py++) { <br>
+					    // rest of the code... <br>
+					} <br>
+				} <br>
+			</code>
+
+			<p>To test if our optimisation worked, we ran the rasterizer at different sample rates on test6.svg, 
+			and recorded the rendering times:</p>
+			
+			<p>Without Speedup:
+                <ul><li>rasterize_triangle: sample rate: 1 time: 6.25846 ms</li>
+                    <li>rasterize_triangle: sample rate: 4 time: 21.5572 ms</li>
+                    <li>rasterize_triangle: sample rate: 9 time: 47.5988 ms</li>
+                    <li>rasterize_triangle: sample rate: 16 time: 79.7845 ms
+
+                </ul>
+			</p>
+
+			<p>With Speedup:
+                <ul><li>rasterize_triangle: sample rate: 1 time: 0.018042 ms</li>
+                    <li>rasterize_triangle: sample rate: 4 time: 0.028792 ms</li>
+                    <li>rasterize_triangle: sample rate: 9 time: 0.091959 ms</li>
+                    <li>rasterize_triangle: sample rate: 16 time: 0.281167 ms</li>
+                </ul>
+            </p>
+
+			<figure>
+                <img src="screenshots/task1/task1_speedup_test6_exp.png" width="400px"/>
+                <figcaption>POW! Test6.svg done in no time!</figcaption>
+            </figure>
+			
+            <h2>Task 2: Antialiasing by Supersampling</h2>
+            <p>
+                For Task 2, during the iteration through each pixel, we added another 2D for-loop to iterate through the subpixels (samples) within that pixel. To do this, we scaled the starting subpixel coordinates by <code>sqrt(sample_rate)</code> and incremented by 1 for each subpixel step. 
+            </p>
+            <p>
+                Similar to Task 1, we checked whether the center of each subpixel (<code>px_sub+0.5</code>, <code>py_sub+0.5</code>) was inside the triangle using the <code>inside</code> helper function.
+            </p>
+            <p>
+                As a bonus for the +1 extra credits, we implemented a jittered sampling technique by tweaking the +0.5 offsets with a randomly-generated offset:
+            </p>
+            <ul>
+                <li><code>float x_offset = (float)rand() / RAND_MAX;</code></li>
+                <li><code>float y_offset = (float)rand() / RAND_MAX;</code></li>
+            </ul>
+            
+            <p>
+                To create a color gradient, we implemented a counter <code>count</code> to track how many subpixels within each pixel were inside the triangle. We then computed the average color using the following formula:
+            </p>
+            <ul>
+                <li><code>Color ave_color = (color * count + Color::White * (sample_rate - count)) * (1.0f / sample_rate);</code></li>
+            </ul>
+            <p>
+                Lastly, we checked whether the resulting average color was within the valid range for <code>Color</code>, and then assigned it to the pixel using:
+            </p>
+            <ul>
+                <li><code>rasterize_point(px, py, ave_color);</code></li>
+            </ul>
+            
+            <div class="flex-gallery">
+                <div>
+                    <img src="screenshots/task2/task_2_sp1_miniview.png" width="250px"/>
+                    <figcaption><code>sampling_rate</code> = 1</figcaption>
+                </div>
+                <div>
+                    <img src="screenshots/task2/task_2_sp4_miniview.png" width="250px"/>
+                    <figcaption><code>sampling_rate</code> = 4</figcaption>
+                </div>
+                <div>
+                    <img src="screenshots/task2/task_16_sp1_miniview.png" width="250px"/>
+                    <figcaption><code>sampling_rate</code> = 16</figcaption>
+                </div>
+            </div>
+
+			<h3>Extra Credit: Jittered Sampling</h3>
+			While Stepping through the sample rates, we noticed a lot of aliasing in the high-frequency patterns, like the example in the hardcore/ folder.
+			So, we decided to implement a jittered sampling technique in <code>RasterizerImp::rasterize_triangle</code>. To do so, for each triangle, we
+			generate a random sampling offset for each pixel:
+
+            <p>
+                <ul>
+                    <code>
+                        auto get_jitter = [](int px, int py, int i, int j, int axis) -> float { <br>
+                            // Scramble the inputs. 'axis' ensures x and y get different random numbers.　<br>
+                            uint32_t n = px * 11 + py * 57 + i * 131 + j * 313 + axis * 1023;　<br>
+                            n = (n << 13) ^ n;　<br>
+                            n = n * (n * n * 15731 + 789221) + 1376312589;　<br>
+                            // Mask and divide to get a float between 0.0 and 1.0　<br>
+                            return (n & 0x0fffffff) / float(0x0fffffff);　<br>
+                        };
+                    </code>
+                </ul>
+    
+            </p>
+			
+			The results came out great! The jittered sampling method avoids syncing the sample rate with periodic features, but instead breaks breaks them 
+			up into noise:
+
+			<div class="flex-gallery">
+                <div>
+                    <img src="screenshots/task2/task2_extra_credit_unif.png" width="250px"/>
+                    <figcaption>hardcore image with grid sampling (sample rate 1)</figcaption>
+                </div>
+                <div>
+                    <img src="screenshots/task2/task2_extra_credit_jittered.png" width="250px"/>
+                    <figcaption>hardcore image with jittered sampling (sample rate 1)</figcaption>
+                </div>
+            </div>
+
+            <h2>Task 3: Transforms</h2>
+            <p>For Task 3, we implemented 3×3 transformation matrices for <code>translate</code>, <code>scale</code>, and <code>rotate</code>.</p>
+            <p>For translation, we output a matrix that places the horizontal shift <code>tx</code> and vertical shift <code>ty</code> in the third column. This makes the transformation follow:</p>
+            <ul>
+                <li><code>output_x = input_x + tx</code></li>
+                <li><code>output_y = input_y + ty</code></li>
+            </ul>
+            <p>For scaling, we output a diagonal matrix with <code>sx</code> and <code>sy</code> along the diagonal so that the transformation satisfies:</p>
+            <ul>
+                <li><code>output_x = input_x * sx</code></li>
+                <li><code>output_y = input_y * sy</code></li>
+            </ul>
+            <p>Lastly, for rotation, we output a matrix using the trigonometric values of the rotation angle <code>deg</code>. This rotates each point using the standard linear combination:</p>
+            <ul>
+                <li><code>output_x = input_x * cos(deg) - input_y * sin(deg)</code></li>
+                <li><code>output_y = input_x * sin(deg) + input_y * cos(deg)</code></li>
+            </ul>
+            
+            <div class="flex-gallery">
+                <div>
+                    <img src="screenshots/task3/Task3_robot_basic.png" width="400px"/>
+                    <figcaption>Using the functions we defined, our robot Louis is standing proudly!</figcaption>
+                </div>
+                <div>
+                    <img src="screenshots/task3/task3_louis_xvi.png" width="400px"/>
+                    <figcaption>Howdy! Nearly Headless Sir Louis is here!</figcaption>
+                </div>
+            </div>
+
+            <h2>Task 4: Barycentric coordinates</h2>
+            <p>For Task 4, we implemented <code>rasterize_interpolated_color_triangle</code>. First, we looped through every pixel (<code>px</code>, <code>py</code>) and computed the barycentric coordinates alpha, beta, and gamma using the triangle’s three vertices following this equation:</p>
+            
+            <figure>
+                <img src="screenshots/Barycentric.png" width="400px"/>
+                <figcaption>Barycentric coordinates formula.</figcaption>
+            </figure>
+            
+            <p>
+                Then, using these barycentric coordinates, we computed the interpolated color at the pixel by taking a weighted sum of the three vertex colors:
+            </p>
+            <ul>
+                <li><code>color = alpha * c0 + beta * c1 + gamma * c2</code></li>
+            </ul>
+            <p>
+                After getting <code>color</code>, we scaled its gradient using the same method as supersampling we discussed in task 2 and rasterized each pixel using <code>rasterize_point(px, py, ave_color)</code>.
+            </p>
+            
+            <figure>
+                <img src="screenshots/task4/task4_colour_wheel.png" width="400px"/>
+                <figcaption>Here's our beautiful colourwheel!</figcaption>
+            </figure>
+
+            <h2>Task 5: "Pixel sampling" for texture mapping</h2>
+            <p>For Task 5, we implemented <code>rasterize_textured_triangle</code> to rasterize a triangle using a texture map.</p>
+            <p>First, we looped through each pixel on the screen and checked whether the pixel lies inside the triangle using the <code>inside</code> function from earlier tasks. If the pixel was inside, we computed its barycentric coordinates <code>alpha</code>, <code>beta</code>, and <code>gamma</code>. Using these values, we interpolated the corresponding (<code>u</code>, <code>v</code>) coordinate on the texture map:</p>
+            <ul>
+                <li><code>u = alpha * u0 + beta * u1 + gamma * u2</code></li>
+                <li><code>v = alpha * v0 + beta * v1 + gamma * v2</code></li>
+            </ul>
+            <p>
+                Next, we sampled the texture at this interpolated (<code>u</code>, <code>v</code>) location. To do this, we filled in a <code>SampleParams</code> struct. We set <code>p_uv</code> to the interpolated (<code>u</code>, <code>v</code>), and we approximated the texture derivatives <code>dudx</code>, <code>dvdx</code>, <code>dudy</code>, <code>dvdy</code> to support mipmapping and level selection:
+            </p>
+            <ul>
+                <li><code>p_dx_uv = (dudx, dvdx)</code></li>
+                <li><code>p_dy_uv = (dudy, dvdy)</code></li>
+            </ul>
+            <p>
+                In our implementation, we supported both <code>sample_nearest</code> and <code>sample_bilinear</code>. For nearest sampling, we mapped (<code>u</code>, <code>v</code>) to texture coordinates and returned the closest texel. For bilinear sampling, we sampled the four surrounding texels and linearly interpolated between them to produce a smoother result. Finally, after sampling the texture to get <code>tex_color</code>, we rasterized the triangle using that sampled color.
+            </p>
+            
+            <div class="flex-gallery">
+                <div>
+                    <img src="screenshots/task5/Task5_atlantic.png" width="250px"/>
+                    <figcaption>atlantic</figcaption>
+                </div>
+                <div>
+                    <img src="screenshots/task5/Task5_campilnili.png" width="250px"/>
+                    <figcaption>campy campanili</figcaption>
+                </div>
+                <div>
+                    <img src="screenshots/task5/Task5_parrot.png" width="250px"/>
+                    <figcaption>parrot</figcaption>
+                </div>
+				<div>
+                    <img src="screenshots/task5/Task5_seal.png" width="250px"/>
+                    <figcaption>seal</figcaption>
+                </div>
+				<div>
+                    <img src="screenshots/task5/Task5_world.png" width="250px"/>
+                    <figcaption>world</figcaption>
+                </div>
+				<div>
+                    <img src="screenshots/task5/Task5_world_bloopers.png" width="250px"/>
+                    <figcaption>bloopers! hehehe</figcaption>
+                </div>
+            </div>
+
+            <p>While implementing texture mapping, some triangles rendered as white or magenta due to inconsistent vertex winding orders failing our point-in-triangle test. We fixed this by modifying the inside check to accept edge values that are either all positive or all negative. We also corrected our texture coordinate math to prevent the textures from rendering upside down.</p>
+
+
+
+            <h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
+            <p>
+				Now that we have pixel sampling working for texture maps, we then implemented mipmapping and level sampling to improve the visual quality when textures are minified. 
+				Mipmapping helps with anti-aliasing by matching the size of triangles with the resolution (or level) of the texture map. With a pre-computed set of texture maps at
+				different resolutions, we can interpolate between different levels to get the appropriate level of detail for each triangle!
+                Level sampling selects the appropriate mipmap level based on how quickly UV coordinates change across neighbouring screen pixels. This prevents aliasing when textures 
+				are minified.
+            </p>
+            <p>
+                First, we computed the mip level using UV differentials (<code>p_dx_uv</code>, <code>p_dy_uv</code>), scaled by texture width and height. Then, to calculate the level 
+				by finding the largest 'stretch' in the UV frame from a change in the XY frame in any direction:
+            </p>
+            <p>
+                <code>level = log2(max(|dudx|, |dvdy|))</code>
+            </p>
+            <p>
+                We clamped this level value to the valid mipmap range, and used it to fetch the appropriate mipmap textures.
+            </p>
+
+            <h3>Pixel Sampling</h3>
+			
+            <h4>Nearest neighbour sampling:</h4>
+			<p>
+				Nearst pixel sampling method transforms your XY frame pixel in the XY frame into the UV frame, and directly uses it 
+				to fetch the corresponding texel colour that this UV coordinate lands on in the mipmap texture.
+			</p>
+				<!-- <pre><code class="language-cpp">
+				Color Texture::sample_nearest(Vector2D uv, int level) {
+					auto& mip = mipmap[level];
+
+					float tx_float = uv.x * (mip.width - 1.0f);
+					float ty_float = uv.y * (mip.height - 1.0f);
+
+					int tx = std::round(tx_float);
+					int ty = std::round(ty_float);
+
+					if (tx >= 0 && tx < mip.width && ty >= 0 && ty < mip.height) {
+						return mip.get_texel(tx, ty);
+					}
+
+					return Color(1, 0, 1);
+				}</code></pre> -->
+
+            <h4>Bilinear sampling:</h4>
+				<p>
+					Since each mipmap texture was compressed by 'blurring' the original resolution texture, to take into account the UV coordinate's proximity to its surrounding texels
+				</p>
+				<!-- <pre><code class="language-cpp">
+					Color Texture::sample_bilinear(Vector2D uv, int level) {
+						auto& mip = mipmap[level];
+
+						float tx_float = uv.x * (mip.width - 1);
+						float ty_float = uv.y * (mip.height - 1);
+
+						int x0 = std::floor(tx_float);
+						int y0 = std::floor(ty_float);
+						int x1 = x0 + 1;
+						int y1 = y0 + 1;
+
+						float s = tx_float - x0;
+						float t = ty_float - y0;
+
+						Color u00 = mip.get_texel(x0, y0);
+						Color u10 = mip.get_texel(x1, y0);
+						Color u01 = mip.get_texel(x0, y1);
+						Color u11 = mip.get_texel(x1, y1);
+
+						Color u0 = u00 + s * (u10 + (u00 * -1.0f));
+						Color u1 = u01 + s * (u11 + (u01 * -1.0f));
+
+						return u0 + t * (u1 + (u0 * -1.0f));
+					}</code></pre> -->
+
+			<h3>Mipmap Level Sampling</h3>
+
+            <p>
+				While we can now sample from each level mipmaps, we also need to handle cases where the texture level is not 
+				a perfect integer. For those cases, the actual texture resolution will be between two mipmap levels. Thus, we need
+				to interpolate between the two texel values corresponding to each of those levels. We will use another bilinear
+				interpolation between the two texel colours, but now rather than using proximities to nearby pixels, we interpolate
+				using the proximity between the upper and lower texture levels.
+			</p>
+				<!-- <pre><code class="language-cpp">
+				Color Texture::sample(const SampleParams& sp) {
+					float level = 0;
+					if (sp.lsm == L_NEAREST) {
+						level = std::round(get_level(sp));
+					} else if (sp.lsm == L_LINEAR) {
+						level = get_level(sp);
+					}
+
+					if (sp.lsm == L_LINEAR) {
+						int low = floor(level);
+						int high = ceil(level);
+						float fraction = level - low;
+
+						Color c_low;
+						Color c_high;
+
+						if (sp.psm == P_NEAREST) {
+							c_low = sample_nearest(sp.p_uv, low);
+							c_high = sample_nearest(sp.p_uv, high);
+						} else {
+							c_low = sample_bilinear(sp.p_uv, low);
+							c_high = sample_bilinear(sp.p_uv, high);
+						}
+
+						return c_low + fraction * (c_high + (-1.0f * c_low));
+					} 
+					else if (sp.psm == P_NEAREST) {
+						return sample_nearest(sp.p_uv, (int)level);
+					} 
+					else {
+						return sample_bilinear(sp.p_uv, (int)level);
+					}
+
+					return Color(1, 0, 1);
+				}</code></pre> -->
+
+			<div class="flex-gallery">
+                <div>
+                    <img src="screenshots/task6/level0_nearest.png" width="250px"/>
+                    <figcaption>level 0, nearest pixel sampling</figcaption>
+                </div>
+                <div>
+                    <img src="screenshots/task6/level0_bilinear.png" width="250px"/>
+                    <figcaption>level 0, blinear pixel sampling</figcaption>
+                </div>
+                <div>
+                    <img src="screenshots/task6/bilinear_level_bilinear.png" width="250px"/>
+                    <figcaption>bilinear level, bilinear sampling</figcaption>
+                </div>
+				<div>
+                    <img src="screenshots/task6/bilinear_level_nearest.png" width="250px"/>
+                    <figcaption>sampling_rate, nearest sampling</figcaption>
+                </div>
+				<div>
+                    <img src="screenshots/task6/nearest_level_bilinear.png" width="250px"/>
+                    <figcaption>nearest level, blinear sampling</figcaption>
+                </div>
+				<div>
+                    <img src="screenshots/task6/nearest_level_nearest.png" width="250px"/>
+                    <figcaption>nearest level, nearest sampling</figcaption>
+                </div>
+            </div>
+
+            <h2>Tradeoffs</h2>
+            <ul>
+                <li><strong>P_NEAREST</strong> is fastest but produces blocky artefacts.</li>
+                <li><strong>P_LINEAR</strong> smooths within a mip level at slightly higher cost.</li>
+                <li><strong>L_ZERO</strong> is fastest but causes aliasing during minification.</li>
+                <li><strong>L_NEAREST</strong> reduces aliasing but may cause visible level transitions.</li>
+                <li><strong>L_LINEAR</strong> (trilinear filtering) provides the smoothest result at higher cost.</li>
+                <li>Increasing samples per pixel improves antialiasing but scales runtime linearly.</li>
+            </ul>
+
+            <h2>Results</h2>
+            <ul>
+                <li><strong>L_ZERO + P_NEAREST:</strong> strong aliasing and blockiness.</li>
+                <li><strong>L_ZERO + P_LINEAR:</strong> smoother locally but still aliased when zoomed out.</li>
+                <li><strong>L_NEAREST + P_NEAREST:</strong> reduced aliasing, still blocky.</li>
+                <li><strong>L_NEAREST + P_LINEAR:</strong> smoothest among required combinations.</li>
+            </ul>
+
+            <p>
+                Overall, bilinear pixel sampling combined with linear mip level sampling gives the best visual quality with reasonable performance.
+            </p>
+
+        </div>
+    </body>
+</html>

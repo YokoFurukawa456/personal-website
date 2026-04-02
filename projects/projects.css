@@ -311,6 +311,27 @@ nav ul li a {
     width: 100%; 
 }
 
+/* The main wrapper for everything */
+.gan-image {
+    display: flex;
+    flex-direction: column; /* Stacks 'top' and 'bottom' vertically */
+    gap: 20px;              /* Adds space between the two rows */
+    width: 100%;
+}
+
+.gan-image-top, 
+.gan-image-bottom {
+    display: flex;          /* Horizontal alignment */
+    justify-content: center; /* Keeps images centered within the card */
+    gap: 15px;              /* Space between image and result */
+}
+
+.gan-image img {
+    max-width: 45%;         /* Ensures two images fit side-by-side with gap */
+    height: auto;           /* Maintains aspect ratio */
+    border-radius: 4px;     /* Optional: matches the card feel */
+}
+
 @media (max-width: 1200px) {
     .projects {
         padding-left: 0px;

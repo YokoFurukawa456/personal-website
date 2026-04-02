@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="la">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CS184/284A Spring 2025 Homework 2 Write-Up</title>
+        
+        <!-- Scriptum pro aequationibus mathematicis -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+        <!-- Tailwind CSS pro stylo minimali -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        
+        <style>
+            /* Custom scrollbar to match the minimal aesthetic */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #ffffff;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #e5e7eb;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #d1d5db;
+            }
+        </style>
+    </head>
+    <body class="min-h-screen bg-white text-black font-mono selection:bg-black selection:text-white">
+
+        <!-- Header -->
+        <header class="py-8 sticky top-0 bg-white/90 backdrop-blur-sm z-50">
+            <div class="max-w-7xl mx-auto px-8 flex justify-between items-center">
+                <div class="text-xl text-black uppercase tracking-tight">
+                    CS184/284A Spring 2025 Homework 2
+                </div>
+                <a href="#" class="text-sm hover:font-bold transition-all">
+                    &larr; back
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="max-w-7xl mx-auto px-8 py-16">
+            <div class="space-y-24">
+                
+                <!-- Row 1: Meta & Overview (3 columns) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+                    <!-- Section: Meta -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>meta
+                        </h2>
+                        <div class="space-y-8">
+                            <!-- Grid Block Component Style -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <div class="text-xs font-bold text-black">Authors</div>
+                                    <div class="text-xs text-gray-700">Yoko Furukawa<br>Kevin Ying</div>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="text-xs font-bold text-black">Links</div>
+                                    <div class="text-xs text-gray-700">
+                                        <a href="https://cs184.eecs.berkeley.edu/sp25" class="hover:text-black hover:font-bold">webpage &nearr;</a><br>
+                                        <a href="https://cs184.eecs.berkeley.edu/sp25" class="hover:text-black hover:font-bold">github &nearr;</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Overview -->
+                    <div class="md:col-span-2 group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>Overview
+                        </h2>
+                        <div class="space-y-8">
+                            <!-- Text Block Component Style -->
+                            <div class="space-y-4">
+                                <p class="text-xs leading-relaxed text-black">
+                                    This project aims to implement a 3D rendering pipeline, from creating mathematical spline 
+                                    representations using bezier curves, work with mesh data structure and implement phong 
+                                    shading, basic mesh edit operations like flip edge, split edge and submidision.
+                                </p>
+                                <p class="text-xs leading-relaxed text-black">
+                                    Overall, it was a challenging but rewarding project.
+                                </p>
+                            </div>
+                            <!-- Image Block Component Style -->
+                            <div class="space-y-2 mt-8">
+                                <img src="images/teapot.png" alt="Vascula" class="w-full object-cover bg-gray-50 border border-gray-100" />
+                                <p class="text-xs text-gray-700">// Imagines cum titulis addere potes!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Part 1 & Images (2 columns) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                    <!-- Section: Part 1 Description -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>Section I: Bezier Curves and Surfaces
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
+
+                                <p class="text-xs leading-relaxed text-black">
+                                    Briefly explain de Casteljau’s algorithm and how you implemented it in order to evaluate Bezier curves.
+                                    Take a look at the provided .bzc files and create your own Bezier curve with 6 control points of your choosing. Use this Bezier curve for your screenshots below.
+                                    Show screenshots of each step / level of the evaluation from the original control points down to the final evaluated point. Press E to step through. Toggle C to show the completed Bezier curve as well.
+                                    Show a screenshot of a slightly different Bezier curve by moving the original control points around and modifying the parameter 
+                                    tt via mouse scrolling.
+                                </p>
+                            </div>
+
+                            <div class="space-y-4">
+                                <h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
+
+                                <p class="text-xs leading-relaxed text-black">
+                                    Briefly explain de Casteljau’s algorithm and how you implemented it in order to evaluate Bezier curves.
+                                    Take a look at the provided .bzc files and create your own Bezier curve with 6 control points of your choosing. Use this Bezier curve for your screenshots below.
+                                    Show screenshots of each step / level of the evaluation from the original control points down to the final evaluated point. Press E to step through. Toggle C to show the completed Bezier curve as well.
+                                    Show a screenshot of a slightly different Bezier curve by moving the original control points around and modifying the parameter 
+                                    tt via mouse scrolling.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Part 1 Images -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>exempla visualia
+                        </h2>
+                        <div class="space-y-8">
+                            <td style="text-align: center;">
+                                <img src="images/Section1/part1/CubicBezier/cubicTwirl.png" width="400px"/>
+                                <figcaption>Twirl</figcaption>
+                                <img src="images/Section1/part1/CubicBezier/cubicZ.png" width="400px"/>
+                                <figcaption>Bezier curves can also be useful for robot trajectory planning!</figcaption>
+                            </td>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3: HTML Grid Example (1 column) -->
+                <div class="grid grid-cols-1 gap-16">
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>structura reticulata
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <p class="text-xs leading-relaxed text-black">
+                                    Hic est exemplum structurae reticulatae utentis mensa HTML (nunc per CSS Grid adaptatae). Hoc utile invenire potes ad imagines eventuum tuorum modo composito fingendas.
+                                </p>
+                            </div>
+                            
+                            <!-- 2x2 Grid using Tailwind -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <img src="images/teapot.png" alt="Teapot 1" class="w-full object-cover bg-gray-50 border border-gray-100 aspect-video" />
+                                    <p class="text-xs text-gray-700">// Titulus hic ponitur.</p>
+                                </div>
+                                <div class="space-y-2">
+                                    <img src="images/teapot.png" alt="Teapot 2" class="w-full object-cover bg-gray-50 border border-gray-100 aspect-video" />
+                                    <p class="text-xs text-gray-700">// Titulus hic ponitur.</p>
+                                </div>
+                                <div class="space-y-2">
+                                    <img src="images/teapot.png" alt="Teapot 3" class="w-full object-cover bg-gray-50 border border-gray-100 aspect-video" />
+                                    <p class="text-xs text-gray-700">// Titulus hic ponitur.</p>
+                                </div>
+                                <div class="space-y-2">
+                                    <img src="images/teapot.png" alt="Teapot 4" class="w-full object-cover bg-gray-50 border border-gray-100 aspect-video" />
+                                    <p class="text-xs text-gray-700">// Titulus hic ponitur.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 4: Parts 2, 3, 4, 5 (4 columns) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
+                    <!-- Section: Part 2 -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>pars ii: superficies
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <p class="text-xs leading-relaxed text-black">
+                                    Superficies Bezierianae cum algorithmo de Casteljau unius dimensionis separabili.
+                                </p>
+                                <p class="text-xs leading-relaxed text-black text-gray-400">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Part 3 -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>pars iii: normales
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <p class="text-xs leading-relaxed text-black">
+                                    Normales verticis area ponderatae.
+                                </p>
+                                <p class="text-xs leading-relaxed text-black text-gray-400">
+                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Part 4 -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>pars iv: inversio
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <p class="text-xs leading-relaxed text-black">
+                                    Inversio marginis (Edge flip) pro structuris datorum semi-marginis.
+                                </p>
+                                <p class="text-xs leading-relaxed text-black text-gray-400">
+                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Part 5 -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>pars v: fissura
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <p class="text-xs leading-relaxed text-black">
+                                    Fissura marginis (Edge split) pro emendatione macularum.
+                                </p>
+                                <p class="text-xs leading-relaxed text-black text-gray-400">
+                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 5: Part 6, Extra Credit & Notes (3 columns) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+                    <!-- Section: Part 6 -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>pars vi: loop
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <p class="text-xs leading-relaxed text-black">
+                                    Subdivisio Loop pro augmentatione maculae (Mesh upsampling).
+                                </p>
+                                <p class="text-xs leading-relaxed text-black text-gray-400">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Extra Credit -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>sectio iii: ars
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <p class="text-xs leading-relaxed text-black">
+                                    Fides Addita Potentialis - Certamen Artis: Finge aliquid creativum.
+                                </p>
+                                <p class="text-xs leading-relaxed text-black text-gray-400">
+                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Notes & Code Block Example -->
+                    <div class="group cursor-default">
+                        <h2 class="text-sm mb-8 uppercase text-black transition-all duration-200 group-hover:font-bold">
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity">&gt; </span>notae additae
+                        </h2>
+                        <div class="space-y-8">
+                            
+                            <!-- Code Block Component Style -->
+                            <div class="bg-gray-50 p-4 border border-gray-100">
+                                <div class="text-xs text-gray-700 mb-2">// html (exemplum codicis)</div>
+                                <pre class="text-xs leading-relaxed text-black font-mono whitespace-pre-wrap"><code>&lt;div class="codex"&gt;
+  codex codex codex
+&lt;/div&gt;</code></pre>
+                            </div>
+
+                            <div class="space-y-4">
+                                <p class="text-xs leading-relaxed text-black">
+                                    Aequationes in linea scribere potes hoc modo: \( a^2 + b^2 = c^2 \)
+                                </p>
+                                <p class="text-xs leading-relaxed text-black">
+                                    Aequationes ostensas scribere potes hoc modo: 
+                                    \[ a^2 + b^2 = c^2 \]
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="py-8 mt-16 pb-16">
+            <div class="max-w-7xl mx-auto px-8 text-center flex flex-col items-center">
+                <div class="w-full h-px bg-gray-100 mb-8"></div>
+                <p class="text-xs text-gray-400 tracking-widest uppercase">© 2026 KEVIN YING & YOKO FURUKAWA</p>
+            </div>
+        </footer>
+
+    </body>
+</html>
