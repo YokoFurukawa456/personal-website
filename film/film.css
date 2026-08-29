@@ -1,502 +1,122 @@
 :root {
-    --background-color: #EFE9DD;
-    --black-color: #000000;
-    --orange-color: #EC552E;
-    --pink-color: #EB97B8;
-    --green-color: #D2E372;
-    --blue-color: #CEDDE5;
-    --yellow-color: #F1DF8C;
-    --gray-color: #D9D9D9;
-    --boarder-brown-color: #911209;
-    --darker-blue-color: #0288D1;
-    --darker-beige-color: #F78C6C;
-    --darker-purple-color: #9999F9;
-    --darker-yellow-color: #FFCB6B;
-    --darker-green-color: #9CCC65;
-    --darker-orange-color: #EC552E;
+    --netflix-red: #e50914;
+    --ink: #141414;
+    --panel: #181818;
+    --copy: #f5f5f1;
+    --muted: #b3b3b3;
 }
 
-*,
-*::after,
-*::before {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: "Sorts Mill Goudy", serif;
-    font-weight: 400;
-    font-style: normal;
-}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--ink); }
+body { margin: 0; background: var(--ink); color: var(--copy); font-family: "Sora", Arial, sans-serif; }
 
 .main {
-    width:100%;
-    margin:0 auto;
-    background: var(--background-color);
-    overflow-x: hidden;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(20,20,20,0) 44%, var(--ink) 69%), radial-gradient(circle at 72% 7%, #3b3b3b 0, #1d1d1d 27%, var(--ink) 62%);
 }
 
-.wrapper {
-    max-width:100%;
-    margin:0 auto;
-    padding-left: 100px;   
-    padding-right: 100px;
-
-}
-
-.btn {
-    position: relative;
-    padding: 12px 20px;
-    padding-left: 45px;
-
-    border-radius: 4px;
-    font-family: "Sora", serif;
-    color: #fff;
-    display: inline-block;
-    font-weight: 600;
-    font-size: 16px;
-    text-decoration: none;
-
-    margin-left: auto;
-    margin-right: 50px;
-}
-
-.btn.black {
-    background: var(--black-color)
-}
-
-.btn.download-icon::before {
-    content: url('../images/icons/download.svg');
-    position: absolute;
-    top: 45%;
-    left: 16px;
-    transform: translateY(-50%);
-
-    width: 16px;
-    height: 16px;
-}
-
-/* nav */
-nav {
-    /* display: flex;
-    justify-content: space-between;
-    align-items: left; */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 16px 0px;
-    background-color: var(--orange-color);
-    z-index: 100;
-
-}
-
-.nav-inner {
-    display: flex;
-    align-items: center;
-}
-
-.nav-links {
-    display: flex;
-    gap: clamp(24px, 6vw, 80px);
-}
-
-nav ul {
-    display: flex;
-    align-items: center;
-    gap: 80px;
-    list-style: none;
-    margin: 10px;
-}
-
-nav ul li a {
-    font-family: "Sora";
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 24px;
-    color: #ffffff;
-    text-decoration: none;
-}
-
-/* title */
-
-.strip {
-  display: flex;
-  gap: 10px;
-  padding: 150px 0;
-  white-space: nowrap;
-}
-
-.box {
-  width: 40px;
-  height: 60px;
-  flex-shrink: 0;
-}
-
-/* Top Strip (Greenish) */
-.strip-top {
-  transform: rotate(-10deg) translateX(-30px) translateY(50px);
-  align-items: center;
-}
-
-.strip-top .box {
-  background-color: var(--green-color);
-}
-
-.label {
-  font-size: 3rem;
-  margin-right: 20px;
-  color: #000;
-}
-
-/* Bottom Strip (Yellowish) */
-.strip-bottom {
-  transform: rotate(5deg) translateX(-30px) translateY(-200px);
-}
-
-.strip-bottom .box {
-  background-color: var(--yellow-color);
-}
-
-/* project */
-.title {
-    width: 100%;
-    padding: 0px 100px;
-    transform: translateY(-510px);
-}
-.title h2 {
-    font-family: "Sorts Mill Goudy", serif;
-    font-weight: 400;
-    font-size: 60px;
-    text-align: left;
-    color: #000000;
-
-    width: 100%;
-    height: 50px;
-}
-
-.blue-bg {
-    max-width:1000px;
-    margin:0 auto;
-    width: 100%;
-    background-color: var(--blue-color);
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding: 30px;
-}
-
-/* .yellow-bg {
-    max-width:800px;
-    margin:50px auto;
-    display: block;
-    background-color: var(--yellow-color);
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding: 50px;
-    text-align: center;
-} */
-
-.yellow-bg {
-    background-color: var(--yellow-color); /* Your yellow-bg color */
-    width: 350px;             /* Fixed width for uniformity */
-    padding: 30px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;      /* Centers text and images inside the card */
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: adds a nice lift */
-}
-
-/* Poster Image styling */
-.yellow-bg img {
-    width: 100%;
-    height: 400px;            /* Set a fixed height to ensure alignment */
-    object-fit: cover;        /* Crops images slightly to fill the box without stretching */
-    margin: 15px 0;
-    border-radius: 4px;
-}
-
-/* Typography bits */
-.yellow-bg h3 {
-    font-size: 1.1rem;
-    height: 3em;              /* Gives titles consistent space even if they wrap */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.role { font-weight: 600; font-size: 0.9rem; margin: 5px 0; }
-.award { color: #d4a017; font-size: 0.85rem; font-style: italic; }
-
-/* 
-
-.yellow-bg {
-    flex: 1 1 300px;       
-    max-width: 350px;      
-    display: flex;
-    flex-direction: column;
-    align-items: center;    
-    text-align: center;
-    padding: 15px;
-    box-sizing: border-box;
-}
-
-.yellow-bg img {
-    width: 100%;      
-    height: auto;         
-    border-radius: 8px;   
-    margin-bottom: 10px;
-} */
-
-.green-bg {
-    max-width:100%;
-    height: 350px;
-    margin:0 auto;
-    background-color: var(--green-color);
-    transform: translateY(-300px);
-}
-
-
-/* projects */
-
-.right {
-    justify-content: space-between; 
-    max-width: 100%;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform: translateY(-400px);
-}
-
-@media (max-width: 1000px) {
-    .right {
-        width: 100vw;                 
-        padding: 0px 0px;
-    }
-}
-
-.frontend {
-    padding-top: 40px;
-    align-items: center;
-    width: 100%; 
-    max-width: 1200px; 
-    padding: 0 0px;
-    align-content: center;
-    box-sizing: border-box;
-}
-
-.frontend img {
-    width: 100%; 
-}
-
-.animation {
-    padding-top: 40px;
-    align-items: center;
-    width: 100%; 
-    max-width: 1200px; 
-    padding: 0 0px;
-    align-content: center;
-    box-sizing: border-box;
-}
-.animation img {
-    width: 100%; 
-}
-
-.ds {
-    padding-top: 40px;
-    align-items: center;
-    width: 100%; 
-    max-width: 1200px; 
-    padding: 0 0px;
-    align-content: center;
-    box-sizing: border-box;
-}
-
-.ds img {
-    width: 100%; 
-    align-items: right;
-}
-
-.film {
-    padding-top: 40px;
-    align-items: center;
-    width: 100%; 
-    max-width: 1200px; 
-    padding: 0 0px;
-    align-content: center;
-    box-sizing: border-box;
-}
-
-.film img {
-    width: 100%; 
-    align-items: right;
-}
-
-.backend {
-    padding-top: 40px;
-    align-items: center;
-    width: 100%; 
-    max-width: 1200px; 
-    padding: 0 0px;
-    align-content: center;
-    box-sizing: border-box;
-}
-
-.backend img {
-    width: 100%; 
-    align-items: right;
-}
-
-.marketing {
-    padding-top: 40px;
-    align-items: center;
-    width: 100%; 
-    max-width: 1200px; 
-    padding: 0 0px;
-    align-content: center;
-    box-sizing: border-box;
-}
-
-.marketing img {
-    width: 100%; 
-}
-
-@media (max-width: 1200px) {
-    .projects {
-        padding-left: 0px;
-        padding-right: 0px;
-    }
-
-    .frontend,
-    .animation,
-    .ds,
-    .film,
-    .backend,
-    .marketing {
-        padding: 0 40px;
-    }
-}
-
-.top h3 {
-    font-family: "Sorts Mill Goudy", serif;
-    font-size: 40px;
-    font-weight: 400;
-    line-height: 45px; /* 125% */
-    letter-spacing: -0.72px;
-
-    text-align: center;
-    color: #000000;
-
-    padding-top: 30px;
-}
-
-.bottom p {
-    font-family: "Sora";
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px; /* 125% */
-    letter-spacing: -0.32px;
-
-    text-align: center;
-    color: #000000;
-
-    margin-top: 0px;
-
-    padding-right: 50px;
-    padding-left: 50px;
-    padding-bottom: 0px;
-
-}
-
-/* .cards {
-    padding-top: 0px;
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 0px;
-
-} */
-.cards {
-    display: flex;          /* This enables the side-by-side layout */
-    flex-wrap: wrap;        /* Allows cards to move to the next row if needed */
-    gap: 20px;              /* Adds space between your posters */
-    justify-content: center; /* Centers the cards horizontally */
-    padding: 20px 0;
-}
-
-.cards h3 {
-    font-family: "Sorts Mill Goudy", serif;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 30px; /* 125% */
-    letter-spacing: -0.32px;
-
-    text-align: center;
-    color: #000000;
-
-    margin-top: 0px;
-
-    padding-right: 50px;
-    padding-left: 50px;
-    padding-bottom: 0px;
-
-}
-
-.cards a {
-    font-family: "Sora", serif;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 30px; /* 125% */
-    letter-spacing: -0.32px;
-
-    text-align: center;
-    color: #000000;
-
-    margin-top: 0px;
-
-    padding-right: 50px;
-    padding-left: 50px;
-    padding-bottom: 0px;
-
-}
-
-/* footer section */
-
-.footer {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    width: 100%;
-    padding: 0px 0px;
-    box-sizing: border-box;
-    transform: translateY(-50px);
-}
-
-.left h3 {
-    font-family: "Sorts Mill Goudy";
-    font-size: 20px;
-    font-style: normal;
-    padding-top: 50px;
-
-}
-
-.left .social {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    list-style: none;
-    margin: 10px;
-}
-
-.left ul li{
-    font-family: "Sorts Mill Goudy";
-    font-size: 20px;
-    font-style: normal;
-    text-decoration: none;
-    list-style: none;
+.wrapper { width: min(100%, 1600px); margin: 0 auto; padding: 0 clamp(24px, 4vw, 64px); }
+
+/* Navigation */
+nav { position: fixed; inset: 0 0 auto; z-index: 100; padding: 18px clamp(24px, 4vw, 60px); background: linear-gradient(180deg, rgba(0,0,0,.88), rgba(0,0,0,0)); }
+.nav-inner { display: flex; align-items: center; gap: 32px; }
+.nav-links { display: flex; align-items: center; gap: clamp(18px, 2.5vw, 36px); padding: 0; margin: 0; list-style: none; }
+nav ul li a { color: #e5e5e5; font-size: .85rem; font-weight: 500; text-decoration: none; transition: color .2s ease; }
+nav ul li a:hover, nav ul li a:focus-visible { color: #fff; }
+nav ul li:nth-child(3) a { color: var(--netflix-red); font-weight: 800; }
+
+.btn { position: relative; display: inline-flex; align-items: center; min-height: 36px; margin-left: auto; padding: 9px 14px 9px 35px; border-radius: 4px; color: #111; background: #fff; font-size: .78rem; font-weight: 700; text-decoration: none; transition: background .2s ease, transform .2s ease; }
+.btn:hover { background: #e6e6e6; transform: scale(1.03); }
+.btn.download-icon::before { content: "↓"; position: absolute; left: 14px; font-size: 1.1rem; line-height: 1; }
+
+/* Hero */
+.something > .strip { display: none; }
+.title { display: flex; align-items: end; min-height: 70vh; padding: 0 clamp(24px, 8vw, 130px) clamp(52px, 8vw, 110px); }
+.title h2 { max-width: 720px; margin: 0; color: #fff; font-family: "Sorts Mill Goudy", Georgia, serif; font-size: clamp(4rem, 10vw, 9.25rem); font-weight: 400; line-height: .8; letter-spacing: -.065em; text-shadow: 0 3px 24px rgba(0,0,0,.7); }
+.title h2::before { content: "YOKO FURUKAWA PRESENTS"; display: block; margin: 0 0 21px 5px; color: var(--netflix-red); font-family: "Sora", Arial, sans-serif; font-size: clamp(.68rem, 1.1vw, .9rem); font-weight: 800; letter-spacing: .18em; }
+
+/* Content rows */
+.right { display: flex; flex-direction: column; gap: 56px; margin-top: -32px; padding-bottom: 88px; }
+.film, .marketing { width: 100%; }
+.top h3 { margin: 0 0 10px; color: #fff; font-size: clamp(1.3rem, 2vw, 1.7rem); font-weight: 700; letter-spacing: -.03em; }
+.bottom p { max-width: 760px; margin: 0 0 20px; color: var(--muted); font-size: .92rem; line-height: 1.65; }
+
+.cards { display: flex; gap: 9px; width: calc(100% + clamp(24px, 4vw, 64px)); margin-right: calc(-1 * clamp(24px, 4vw, 64px)); padding: 12px 4px 26px 0; overflow-x: auto; overflow-y: visible; scrollbar-width: thin; scrollbar-color: #555 transparent; scroll-snap-type: x proximity; }
+.cards::-webkit-scrollbar { height: 7px; }
+.cards::-webkit-scrollbar-thumb { background: #555; border-radius: 99px; }
+
+/* Hover previews and click-to-open title details. */
+.title-card { position: relative; flex: 0 0 clamp(148px, 15.2vw, 225px); margin: 0; border-radius: 4px; background: #292929; box-shadow: 0 2px 8px rgba(0,0,0,.45); scroll-snap-align: start; transition: transform .25s ease, box-shadow .25s ease; }
+.title-card:hover, .title-card:focus-within { z-index: 2; box-shadow: 0 20px 40px rgba(0,0,0,.75), 0 0 0 2px rgba(255,255,255,.16); transform: scale(1.16); }
+.title-card summary { position: relative; display: block; overflow: hidden; border-radius: 4px; cursor: pointer; list-style: none; }
+.title-card summary::-webkit-details-marker { display: none; }
+.title-card summary:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.title-card summary img { display: block; width: 100%; aspect-ratio: 2 / 3; object-fit: cover; transition: filter .25s ease; }
+
+.card-preview { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: end; gap: 5px; padding: 14px 11px; color: #fff; background: linear-gradient(0deg, rgba(0,0,0,.96), rgba(0,0,0,0) 65%); opacity: 0; transition: opacity .2s ease; }
+.card-preview strong { font-size: clamp(.72rem, .9vw, .9rem); line-height: 1.2; }
+.card-preview span { color: #d2d2d2; font-size: clamp(.59rem, .7vw, .72rem); line-height: 1.25; }
+.card-preview b { display: inline-flex; align-items: center; width: fit-content; padding: 4px 7px; border-radius: 3px; background: #fff; color: #111; font-size: .6rem; }
+.title-card:hover .card-preview, .title-card:focus-within .card-preview { opacity: 1; }
+.title-card:hover summary img { filter: brightness(.7); }
+
+.title-detail { display: none; padding: 17px; color: #e8e8e8; }
+.title-detail h3 { clear: none; margin: 9px 0 12px; color: #fff; font-size: clamp(.9rem, 1.15vw, 1.12rem); line-height: 1.2; }
+.metadata { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; color: #46d369; font-size: .62rem; font-weight: 700; }
+.metadata span:not(:last-child)::after { content: "•"; margin-left: 6px; color: #aaa; }
+.synopsis { margin: 0 0 15px; font-size: .7rem; line-height: 1.55; }
+.title-detail dl { display: grid; gap: 8px; margin: 0; font-size: .64rem; line-height: 1.35; }
+.title-detail dl div { display: grid; grid-template-columns: 62px 1fr; gap: 8px; }
+.title-detail dt { color: #8e8e8e; }
+.title-detail dd { margin: 0; color: #f1f1f1; }
+.title-detail a { color: #fff; text-decoration-color: var(--netflix-red); text-underline-offset: 3px; }
+.detail-note { clear: both; margin: 14px 0 0; padding-top: 10px; border-top: 1px solid #444; color: #aaa; font-size: .6rem; line-height: 1.45; }
+
+/* The selected film appears above the archive, while the site remains visible behind it. */
+body.modal-open { overflow: hidden; }
+.film-modal[hidden] { display: none; }
+.film-modal { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: clamp(20px, 5vw, 72px); }
+.film-modal__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.76); backdrop-filter: blur(8px); }
+.film-modal__panel { position: relative; width: min(940px, 100%); max-height: min(720px, 88vh); overflow: auto; border: 1px solid #454545; border-radius: 7px; background: linear-gradient(135deg, #292929, #171717); box-shadow: 0 30px 90px rgba(0,0,0,.82); animation: title-panel-in .23s ease-out; }
+.film-modal__panel::before { content: ""; position: absolute; inset: 0 0 auto; height: 190px; pointer-events: none; background: linear-gradient(115deg, rgba(229,9,20,.34), transparent 55%); }
+.film-modal__close { position: sticky; top: 14px; z-index: 2; float: right; width: 36px; height: 36px; margin: 14px; border: 0; border-radius: 50%; color: #fff; background: #181818; font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.film-modal__body { position: relative; display: grid; grid-template-columns: minmax(180px, 29%) 1fr; gap: clamp(22px, 4vw, 48px); padding: clamp(30px, 5vw, 58px); }
+.film-modal__poster { width: 100%; border-radius: 4px; box-shadow: 0 14px 30px rgba(0,0,0,.5); }
+.film-modal .title-detail { display: block; padding: 0; }
+.film-modal .title-detail h3 { margin-top: 13px; font-size: clamp(1.6rem, 3vw, 2.6rem); }
+.film-modal .metadata { font-size: .8rem; }
+.film-modal .synopsis { max-width: 590px; margin-bottom: 23px; font-size: .92rem; line-height: 1.7; }
+.film-modal .title-detail dl { gap: 11px; font-size: .78rem; }
+.film-modal .title-detail dl div { grid-template-columns: 82px 1fr; }
+.film-modal .detail-note { margin-top: 22px; font-size: .74rem; }
+@keyframes title-panel-in { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
+
+.blue-bg { padding: clamp(22px, 3vw, 40px); border-radius: 5px; background: linear-gradient(110deg, #202020, #151515); }
+.marketing .cards { width: 100%; margin-right: 0; }
+
+/* Footer */
+.green-bg { background: #080808; border-top: 1px solid #2a2a2a; }
+.footer { padding: 42px 0; }
+.left h3 { margin: 0 0 16px; color: #fff; font-size: 1.15rem; }
+.left .social { display: flex; gap: 18px; margin: 0 0 18px; padding: 0; }
+.left .social img { width: 24px; height: 24px; filter: invert(1); opacity: .82; }
+.left ul { margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: .82rem; }
+
+@media (max-width: 650px) {
+    nav { padding: 14px 20px; }
+    .nav-inner { gap: 12px; }
+    .nav-links { gap: 12px; }
+    nav ul li a { font-size: .7rem; }
+    .btn { min-height: 32px; padding: 8px 10px 8px 28px; font-size: .68rem; }
+    .btn.download-icon::before { left: 11px; }
+    .title { min-height: 58vh; padding: 0 24px 45px; }
+    .right { margin-top: 0; gap: 42px; padding-bottom: 54px; }
+    .bottom p br { display: none; }
+    .title-card { flex-basis: 135px; }
+    .title-card:hover, .title-card:focus-within { transform: scale(1.1); }
+    .film-modal { padding: 16px; }
+    .film-modal__body { grid-template-columns: 110px 1fr; gap: 18px; padding: 38px 22px 25px; }
+    .film-modal .synopsis { font-size: .78rem; line-height: 1.55; }
+    .blue-bg { margin: 0 -8px; }
 }
